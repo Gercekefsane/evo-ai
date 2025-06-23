@@ -22,6 +22,13 @@ services:
       APP_URL: ${APP_URL}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       DEBUG: ${DEBUG:-false}
+      HOST: 0.0.0.0
+      PORT: 8000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.evoapi.rule=Host(`fwwc40cw80oowkw4k8w8ooks.195.201.141.150.sslip.io`)"
+      - "traefik.http.routers.evoapi.entrypoints=http"
+      - "traefik.http.services.evoapi.loadbalancer.server.port=8000"
     volumes:
       - ./logs:/app/logs
       - ./static:/app/static
@@ -36,6 +43,7 @@ services:
         limits:
           cpus: "1"
           memory: 1G
+
 
   postgres:
     image: postgres:14-alpine
